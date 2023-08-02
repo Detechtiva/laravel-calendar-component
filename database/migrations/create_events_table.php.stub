@@ -1,0 +1,37 @@
+<?php
+
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateEventsTable extends Migration
+{
+    public function up()
+    {
+        Schema::create('events', function (Blueprint $table) {
+            $table->id();
+
+            $table->morphs('model');
+            $table->string('title');
+            $table->text('description')->nullable();
+            $table->dateTime('starts_at');
+            $table->dateTime('ends_at');
+            $table->boolean('is_all_day')->default(false);
+
+            $table->nullableMorphs('created_by');
+
+            $table->timestamps();
+        });
+
+        Schema::create('event_participant', function (Blueprint $table) {
+            $table->foreignId('event_id')->constrained()->cascadeOnDelete();
+            $table->morphs('participant');
+        });
+    }
+
+    public function down()
+    {
+        Schema::dropIfExists('events');
+        Schema::dropIfExists('event_participant');
+    }
+}
