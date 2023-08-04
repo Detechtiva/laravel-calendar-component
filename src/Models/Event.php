@@ -3,9 +3,10 @@
 namespace Detechtiva\VueCalendarForLaravel\Models;
 
 use Carbon\Carbon;
-use InvalidArgumentException;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use InvalidArgumentException;
 
 class Event extends Model
 {
@@ -53,5 +54,14 @@ class Event extends Model
         $this->ends_at = $this->starts_at->copy()->add($duration, $unit);
 
         $this->save();
+    }
+
+    public function getConflictingEvents(Carbon $start, Carbon $end): Collection
+    {
+        return Event::where(function ($query) use ($start, $end) {
+            $query->where('starts_at', '<', $end)
+                ->where('ends_at', '>', $start)
+                ->where('id', '!=', $this->id);
+        })->get();
     }
 }

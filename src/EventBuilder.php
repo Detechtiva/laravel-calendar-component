@@ -11,7 +11,6 @@ class EventBuilder
 {
     protected Model $model;
     protected Carbon $startsAt;
-    protected $duration;
     protected Carbon $endsAt;
     protected string $title;
     protected string $description;
@@ -31,12 +30,6 @@ class EventBuilder
     public function startingAt(Carbon $startsAt): EventBuilder
     {
         $this->startsAt = $startsAt;
-        return $this;
-    }
-
-    public function withDuration($duration, $unit): EventBuilder
-    {
-        $this->endsAt = $this->startsAt->copy()->add($duration, $unit);
         return $this;
     }
 
