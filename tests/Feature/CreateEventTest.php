@@ -7,8 +7,8 @@ use Detechtiva\VueCalendarForLaravel\EventBuilder;
 use Detechtiva\VueCalendarForLaravel\Models\Event;
 use Detechtiva\VueCalendarForLaravel\Tests\Feature\database\factories\UserFactory;
 use Detechtiva\VueCalendarForLaravel\Tests\Feature\database\factories\WorkOrderFactory;
-use Detechtiva\VueCalendarForLaravel\Tests\Feature\TestModels\WorkOrder;
 use Detechtiva\VueCalendarForLaravel\Tests\Feature\TestModels\User;
+use Detechtiva\VueCalendarForLaravel\Tests\Feature\TestModels\WorkOrder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use InvalidArgumentException;
 
@@ -30,6 +30,8 @@ class CreateEventTest extends TestCase
             $user = UserFactory::new()->create()
         );
 
+        $participants = UserFactory::new()->count(2)->create();
+
         $workOrder = WorkOrderFactory::new()->create();
 
         // Act
@@ -39,6 +41,7 @@ class CreateEventTest extends TestCase
             ->withDescription($description = 'My description')
             ->startingAt($start = now())
             ->endingAt($end = now()->addHour())
+            ->withParticipants($participants)
             ->create();
 
         // Assert
@@ -55,6 +58,8 @@ class CreateEventTest extends TestCase
         $this->assertFalse($event->is_all_day);
         $this->assertEquals($user->id, $event->created_by_id);
         $this->assertEquals(User::class, $event->created_by_type);
+
+        $this->assertCount(2, $event->participants);
     }
 
     /** @test */

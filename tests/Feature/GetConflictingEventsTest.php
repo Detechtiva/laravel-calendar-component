@@ -1,6 +1,6 @@
 <?php
 
-namespace Detechtiva\VueCalendarForLaravel\Tests\Unit;
+namespace Detechtiva\VueCalendarForLaravel\Tests\Feature;
 
 use Detechtiva\VueCalendarForLaravel\Tests\Feature\database\factories\EventFactory;
 use Detechtiva\VueCalendarForLaravel\Tests\Feature\TestCase;

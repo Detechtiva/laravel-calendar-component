@@ -4,6 +4,7 @@ namespace Detechtiva\VueCalendarForLaravel;
 
 use Carbon\Carbon;
 use Detechtiva\VueCalendarForLaravel\Models\Event;
+use Detechtiva\VueCalendarForLaravel\Models\EventParticipant;
 use Illuminate\Database\Eloquent\Model;
 use InvalidArgumentException;
 
@@ -14,7 +15,7 @@ class EventBuilder
     protected Carbon $endsAt;
     protected string $title;
     protected string $description;
-    protected array $participants = [];
+    protected $participants = [];
 
     public static function new(): EventBuilder
     {
@@ -51,7 +52,7 @@ class EventBuilder
         return $this;
     }
 
-    public function withParticipants(array $participants): EventBuilder
+    public function withParticipants($participants): EventBuilder
     {
         $this->participants = $participants;
         return $this;
@@ -75,6 +76,14 @@ class EventBuilder
         ]);
 
         $event->save();
+
+        foreach ($this->participants as $participant) {
+            $event->participants()->create([
+                'participant_type' => get_class($participant),
+                'participant_id' => $participant->id,
+                'event_id' => $event->id,
+            ]);
+        }
 
         return $event;
     }

@@ -23,15 +23,19 @@ class CreateEventsTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('event_participant', function (Blueprint $table) {
+        Schema::create('event_participants', function (Blueprint $table) {
+            $table->id();
+
             $table->foreignId('event_id')->constrained()->cascadeOnDelete();
             $table->morphs('participant');
+
+             $table->timestamps();
         });
     }
 
     public function down()
     {
         Schema::dropIfExists('events');
-        Schema::dropIfExists('event_participant');
+        Schema::dropIfExists('event_participants');
     }
 }

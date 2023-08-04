@@ -6,6 +6,8 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use InvalidArgumentException;
 
 class Event extends Model
@@ -30,6 +32,14 @@ class Event extends Model
         'ends_at' => 'datetime',
     ];
 
+    public function participants(): MorphMany
+    {
+        return $this->morphMany(
+            EventParticipant::class,
+            'participant'
+        );
+    }
+
     public function reschedule(Carbon $startsAt, ?Carbon $endsAt = null): void
     {
         if (empty($endsAt)) {
@@ -43,6 +53,14 @@ class Event extends Model
 
         $this->save();
     }
+
+    public function removeParticipant(int|EventParticipant $data): void
+    {
+        $participantId = $data instanceof EventParticipant ? $data->id : $data;
+
+        $this->participants()->where('id', $participantId)->delete();
+    }
+
 
     public function changeDuration($duration, $unit): void
     {
