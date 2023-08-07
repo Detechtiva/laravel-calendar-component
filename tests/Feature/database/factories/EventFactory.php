@@ -15,7 +15,7 @@ class EventFactory extends Factory
     {
         $hours = collect([12, 13, 14, 15]);
         $duration = collect([30, 60, 90]);
-        $startsAt = CarbonImmutable::create()
+        $startsAt = CarbonImmutable::today()
             ->setTime($hours->random(), 0);
 
         return [

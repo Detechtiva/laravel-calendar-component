@@ -30,10 +30,7 @@ class GetConflictingEventsTest extends TestCase
             ->create(['starts_at' => today()->setTime(14, 0), 'ends_at' => today()->setTime(16, 0)]);
 
         // Act
-        $events = $event->getConflictingEvents(
-            today()->setTime(12, 0),
-            today()->setTime(14, 0)
-        );
+        $events = $event->getConflictingEvents();
 
         // Assert
         $this->assertCount(2, $events);

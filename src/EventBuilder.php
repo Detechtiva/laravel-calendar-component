@@ -14,7 +14,7 @@ class EventBuilder
     protected Carbon $startsAt;
     protected Carbon $endsAt;
     protected string $title;
-    protected string $description;
+    protected ?string $description = null;
     protected $participants = [];
 
     public static function new(): EventBuilder
@@ -46,7 +46,7 @@ class EventBuilder
         return $this;
     }
 
-    public function withDescription(string $description): EventBuilder
+    public function withDescription(?string $description = null): EventBuilder
     {
         $this->description = $description;
         return $this;
@@ -78,7 +78,7 @@ class EventBuilder
         $event->save();
 
         foreach ($this->participants as $participant) {
-            $event->participants()->create([
+            EventParticipant::create([
                 'participant_type' => get_class($participant),
                 'participant_id' => $participant->id,
                 'event_id' => $event->id,

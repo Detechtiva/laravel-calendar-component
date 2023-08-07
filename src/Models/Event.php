@@ -74,12 +74,11 @@ class Event extends Model
         $this->save();
     }
 
-    public function getConflictingEvents(Carbon $start, Carbon $end): Collection
+    public function getConflictingEvents(): Collection
     {
-        return Event::where(function ($query) use ($start, $end) {
-            $query->where('starts_at', '<', $end)
-                ->where('ends_at', '>', $start)
-                ->where('id', '!=', $this->id);
+        return Event::where(function ($query) {
+            $query->where('starts_at', '<', $this->ends_at)
+                ->where('ends_at', '>', $this->starts_at);
         })->get();
     }
 }
