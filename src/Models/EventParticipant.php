@@ -9,4 +9,8 @@ class EventParticipant extends Model
     protected $table = 'event_participants';
 
     protected $guarded = [];
+
+    public function participants(){
+        return $this->morphTo();
+    }
 }
