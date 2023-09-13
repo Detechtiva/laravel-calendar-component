@@ -18,7 +18,7 @@ class RemoveParticipantTest extends TestCase
         // Arrange
         $participant = UserFactory::new()->create();
         $event = EventFactory::new()->create();
-        $event->participants()->create([
+        $event->eventParticipants()->create([
             'participant_type' => get_class($participant),
             'participant_id' => $participant->id,
             'event_id' => $event->id,
@@ -26,12 +26,12 @@ class RemoveParticipantTest extends TestCase
 
         $eventParticipant = EventParticipant::first();
 
-        $this->assertCount(1, $event->participants);
+        $this->assertCount(1, $event->eventParticipants);
 
         // Act
         $event->removeParticipant($eventParticipant);
 
         // Assert
-        $this->assertCount(0, $event->fresh()->participants);
+        $this->assertCount(0, $event->fresh()->eventParticipants);
     }
 }

@@ -59,7 +59,7 @@ class CreateEventTest extends TestCase
         $this->assertEquals($user->id, $event->created_by_id);
         $this->assertEquals(User::class, $event->created_by_type);
 
-        $this->assertCount(2, $event->participants);
+        $this->assertCount(2, $event->eventParticipants);
     }
 
     /** @test */
