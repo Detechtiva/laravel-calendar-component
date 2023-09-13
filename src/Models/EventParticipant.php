@@ -3,6 +3,7 @@
 namespace Detechtiva\VueCalendarForLaravel\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class EventParticipant extends Model
 {
@@ -10,7 +11,7 @@ class EventParticipant extends Model
 
     protected $guarded = [];
 
-    public function participants(){
+    public function participant(): MorphTo
         return $this->morphTo();
     }
 }

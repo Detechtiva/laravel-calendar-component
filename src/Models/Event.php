@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use InvalidArgumentException;
 
 class Event extends Model
@@ -25,6 +25,11 @@ class Event extends Model
         'created_by_type',
         'created_by_id',
     ];
+
+    public function model(): MorphTo
+    {
+        return $this->morphTo();
+    }
 
     protected $casts = [
         'is_all_day' => 'bool',
@@ -55,7 +60,7 @@ class Event extends Model
     {
         $participantId = $data instanceof EventParticipant ? $data->id : $data;
 
-        $this->participants()->where('id', $participantId)->delete();
+        $this->eventParticipants()->where('id', $participantId)->delete();
     }
 
 
