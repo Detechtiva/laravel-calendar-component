@@ -12,6 +12,7 @@ class EventParticipant extends Model
     protected $guarded = [];
 
     public function participant(): MorphTo
+    {
         return $this->morphTo();
     }
 }
