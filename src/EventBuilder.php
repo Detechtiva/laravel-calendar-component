@@ -16,6 +16,8 @@ class EventBuilder
     protected string $title;
     protected ?string $description = null;
     protected $participants = [];
+    protected ?int $durationInMinutes = null;
+    protected ?array $extras = null;
 
     public static function new(): EventBuilder
     {
@@ -58,6 +60,18 @@ class EventBuilder
         return $this;
     }
 
+    public function withDurationInMinutes(int $durationInMinutes): EventBuilder
+    {
+        $this->durationInMinutes = $durationInMinutes;
+        return $this;
+    }
+
+    public function withExtras(array $extras): EventBuilder
+    {
+        $this->extras = $extras;
+        return $this;
+    }
+
     public function create(): Event
     {
         if (empty($this->title)) {
@@ -71,6 +85,8 @@ class EventBuilder
             'ends_at' => $this->endsAt,
             'title' => $this->title,
             'description' => $this->description,
+            'duration_in_minutes' => $this->durationInMinutes,
+            'extras' => $this->extras,
             'created_by_type' => auth()->check() ? get_class(auth()->user()) : null,
             'created_by_id' => auth()->check() ? auth()->id() : null,
         ]);
