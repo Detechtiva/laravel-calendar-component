@@ -21,21 +21,25 @@ class Event extends Model
         'description',
         'starts_at',
         'ends_at',
+        'duration_in_minutes',
+        'extras',
         'is_all_day',
         'created_by_type',
         'created_by_id',
+    ];
+
+    protected $casts = [
+        'is_all_day' => 'bool',
+        'starts_at' => 'datetime',
+        'ends_at' => 'datetime',
+        'duration_in_minutes' => 'integer',
+        'extras' => 'json',
     ];
 
     public function model(): MorphTo
     {
         return $this->morphTo();
     }
-
-    protected $casts = [
-        'is_all_day' => 'bool',
-        'starts_at' => 'datetime',
-        'ends_at' => 'datetime',
-    ];
 
     public function eventParticipants(): HasMany
     {
