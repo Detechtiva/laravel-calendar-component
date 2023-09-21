@@ -9,8 +9,8 @@ class AddDurationAndExtrasColumnsInEventsTable extends Migration
     public function up()
     {
         Schema::table('events', function (Blueprint $table) {
-            $table->tinyInteger('duration_in_minutes')->nullable();
-            $table->json('extras')->nullable();
+            $table->integer('duration_in_minutes')->nullable()->after('ends_at');
+            $table->json('extras')->nullable()->after('is_all_day');
         });
     }
 
