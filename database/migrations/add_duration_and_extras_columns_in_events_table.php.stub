@@ -12,15 +12,6 @@ class AddDurationAndExtrasColumnsInEventsTable extends Migration
             $table->tinyInteger('duration_in_minutes')->nullable();
             $table->json('extras')->nullable();
         });
-
-        Schema::create('event_participants', function (Blueprint $table) {
-            $table->id();
-
-            $table->foreignId('event_id')->constrained()->cascadeOnDelete();
-            $table->morphs('participant');
-
-             $table->timestamps();
-        });
     }
 
     public function down()
