@@ -27,7 +27,7 @@ class VueCalendarForLaravelServiceProvider extends ServiceProvider
 
             $this->publishes([
                 __DIR__ . '/../database/migrations/create_events_table.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_events_table.php'),
-                __DIR__ . '/../database/migrations/add_duration_and_extras_columns_in_events_table.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . 'add_duration_and_extras_columns_in_events_table.php'),
+                __DIR__ . '/../database/migrations/add_duration_and_extras_columns_in_events_table.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_add_duration_and_extras_columns_in_events_table.php'),
                 // you can add any number of migrations here
             ], 'migrations');
 
