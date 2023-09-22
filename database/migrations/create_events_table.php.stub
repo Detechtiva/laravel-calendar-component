@@ -16,7 +16,9 @@ class CreateEventsTable extends Migration
             $table->text('description')->nullable();
             $table->dateTime('starts_at');
             $table->dateTime('ends_at');
+            $table->integer('duration_in_minutes')->nullable();
             $table->boolean('is_all_day')->default(false);
+            $table->json('extras')->nullable();
 
             $table->nullableMorphs('created_by');
 
