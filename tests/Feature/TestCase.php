@@ -27,6 +27,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
     protected function getEnvironmentSetUp($app)
     {
         include_once __DIR__ . '/../../database/migrations/create_events_table.php.stub';
+        include_once __DIR__ . '/../../database/migrations/create_events_table.php.stub';
 
         include_once __DIR__ . '/database/migrations/create_work_orders_table.php';
         include_once __DIR__ . '/database/migrations/create_users_table.php';
