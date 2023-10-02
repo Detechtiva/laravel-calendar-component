@@ -1,0 +1,22 @@
+<?php
+
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Migrations\Migration;
+
+class AddCanceledAtFieldInEventsTable extends Migration
+{
+    public function up()
+    {
+        Schema::table('events', function (Blueprint $table) {
+            $table->dateTime('canceled_at')->nullable()->after('ends_at');
+        });
+    }
+
+    public function down()
+    {
+        Schema::table('events', function (Blueprint $table) {
+            $table->dropColumn('canceled_at');
+        });
+    }
+}

@@ -21,6 +21,7 @@ class Event extends Model
         'description',
         'starts_at',
         'ends_at',
+        'canceled_at',
         'duration_in_minutes',
         'extras',
         'is_all_day',
@@ -32,6 +33,7 @@ class Event extends Model
         'is_all_day' => 'bool',
         'starts_at' => 'datetime',
         'ends_at' => 'datetime',
+        'canceled_at' => 'datetime',
         'duration_in_minutes' => 'integer',
         'extras' => 'json',
     ];
