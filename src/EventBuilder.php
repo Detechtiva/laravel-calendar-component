@@ -103,4 +103,33 @@ class EventBuilder
 
         return $event;
     }
+
+    public function rescheduleEvent(Event $oldEvent) : Event
+    {
+        $event = new Event([
+            'model_type' => $oldEvent->model_type,
+            'model_id' => $oldEvent->model_id,
+            'starts_at' => $this->startsAt,
+            'ends_at' => $this->endsAt,
+            'title' => $oldEvent->title,
+            'description' => $oldEvent->description,
+            'duration_in_minutes' => $this->durationInMinutes,
+            'extras' => $this->extras,
+            'parent_id' => $oldEvent->id,
+            'created_by_type' => auth()->check() ? get_class(auth()->user()) : null,
+            'created_by_id' => auth()->check() ? auth()->id() : null,
+        ]);
+
+        $event->save();
+
+        foreach ($this->participants as $participant) {
+            EventParticipant::create([
+                'participant_type' => get_class($participant),
+                'participant_id' => $participant->id,
+                'event_id' => $event->id,
+            ]);
+        }
+
+        return $event;
+    }
 }
