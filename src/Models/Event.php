@@ -27,6 +27,7 @@ class Event extends Model
         'is_all_day',
         'created_by_type',
         'created_by_id',
+        'parent_id'
     ];
 
     protected $casts = [
@@ -37,6 +38,11 @@ class Event extends Model
         'duration_in_minutes' => 'integer',
         'extras' => 'json',
     ];
+
+    public function eventParent(): BelongsTo
+    {
+        return $this->belongsTo(Event::class, 'parent_id');
+    }
 
     public function model(): MorphTo
     {
