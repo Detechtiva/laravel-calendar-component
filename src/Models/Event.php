@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use InvalidArgumentException;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Event extends Model
 {
@@ -95,4 +96,15 @@ class Event extends Model
                 ->where('ends_at', '>', $this->starts_at);
         })->get();
     }
+
+    public function eventParent(): BelongsTo
+    {
+        return $this->belongsTo(Event::class, 'parent_id');
+    }
+    
+    public function eventChildren(): HasOne
+    {
+        return $this->hasOne(Event::class, 'parent_id');
+    }
+
 }
