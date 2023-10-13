@@ -44,6 +44,11 @@ class Event extends Model
     {
         return $this->belongsTo(Event::class, 'parent_id');
     }
+    
+    public function eventChildren(): HasOne
+    {
+        return $this->hasOne(Event::class, 'parent_id');
+    }
 
     public function model(): MorphTo
     {
@@ -95,16 +100,6 @@ class Event extends Model
             $query->where('starts_at', '<', $this->ends_at)
                 ->where('ends_at', '>', $this->starts_at);
         })->get();
-    }
-
-    public function eventParent(): BelongsTo
-    {
-        return $this->belongsTo(Event::class, 'parent_id');
-    }
-    
-    public function eventChildren(): HasOne
-    {
-        return $this->hasOne(Event::class, 'parent_id');
     }
 
 }
