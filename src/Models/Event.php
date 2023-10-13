@@ -40,11 +40,11 @@ class Event extends Model
         'extras' => 'json',
     ];
 
-    public function eventParent(): BelongsTo
+    public function eventParent()
     {
         return $this->belongsTo(Event::class, 'parent_id');
     }
-    
+
     public function eventChildren(): HasOne
     {
         return $this->hasOne(Event::class, 'parent_id');
