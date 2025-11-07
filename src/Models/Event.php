@@ -74,7 +74,7 @@ class Event extends Model
         $this->save();
     }
 
-    public function removeParticipant(int|EventParticipant $data): void
+    public function removeParticipant($data): void
     {
         $participantId = $data instanceof EventParticipant ? $data->id : $data;
 
@@ -99,7 +99,9 @@ class Event extends Model
         return Event::where(function ($query) {
             $query->where('starts_at', '<', $this->ends_at)
                 ->where('ends_at', '>', $this->starts_at);
-        })->get();
+        })
+        ->where('id', '!=', $this->id)
+        ->get();
     }
 
 }

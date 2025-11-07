@@ -26,6 +26,14 @@ class TestCase extends \Orchestra\Testbench\TestCase
 
     protected function getEnvironmentSetUp($app)
     {
+        // Setup default database to use sqlite :memory:
+        $app['config']->set('database.default', 'testbench');
+        $app['config']->set('database.connections.testbench', [
+            'driver'   => 'sqlite',
+            'database' => ':memory:',
+            'prefix'   => '',
+        ]);
+
         include_once __DIR__ . '/../../database/migrations/create_events_table.php.stub';
         include_once __DIR__ . '/../../database/migrations/add_canceled_at_field_in_events_table.php.stub';
         include_once __DIR__ . '/../../database/migrations/add_parent_id_field_in_events_table.php.stub';
