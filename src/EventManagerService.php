@@ -147,9 +147,7 @@ class EventManagerService
                             'grid-column-start' => $this->getColumnForEvent($event->starts_at),
                             'grid-row-start' => $this->getRowsForEvent($event->starts_at, $event->ends_at)['startRow'],
                             'grid-row-end' => 'span ' . $this->getRowsForEvent($event->starts_at, $event->ends_at)['span'],
-                            'width' => $this->getOverlappingEvents($event)->count() <= 1
-                                ? '100%'
-                                : 100 / $this->getOverlappingEvents($event)->count() . '%',
+                            'width' => $this->calculateWidthForEvent($event),
                             'left' => $this->getLeftPositionForEvent($event),
                         ]
                     ]
@@ -205,14 +203,35 @@ class EventManagerService
         });
     }
 
+    private function calculateWidthForEvent($event): string
+    {
+        $overlappingEvents = $this->getOverlappingEvents($event);
+        
+        $count = $overlappingEvents->count() + 1;
+        
+        if ($count <= 1) {
+            return '100%';
+        }
+        
+        return (100 / $count) . '%';
+    }
+
     private function getLeftPositionForEvent($targetEvent): string
     {
         $overlappingEvents = $this->getOverlappingEvents($targetEvent);
 
-        $index = $overlappingEvents->search(function ($event) use ($targetEvent) {
+        $allOverlappingEvents = $overlappingEvents->push($targetEvent)->sortBy('starts_at');
+        
+        $count = $allOverlappingEvents->count();
+        
+        if ($count === 0) {
+            return '0%';
+        }
+
+        $index = $allOverlappingEvents->search(function ($event) use ($targetEvent) {
             return $event->id === $targetEvent->id;
         });
 
-        return ((100 / $overlappingEvents->count()) * $index) . '%';
+        return ((100 / $count) * $index) . '%';
     }
 }
